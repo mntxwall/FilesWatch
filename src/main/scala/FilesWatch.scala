@@ -67,8 +67,6 @@ object FilesWatch {
     sb.toString
   }
 
-
-
   def unzipFiles(outDir: Path, source: Path, config: Config):Unit = {
 
     val buffer = new Array[Byte](1024)
@@ -76,21 +74,33 @@ object FilesWatch {
     val entry = stream.getNextEntry
     /*
     *在做解压之前，需做好文件目录设置
+    * 判断文件是否是压缩文件
     * */
-    //if(source.getFileName.toString.matches("zip$")) println("zipFiles")
-
-    //println(source.getFileName)
-    //if (isZipFile(source, config)) {println("zip file")}
-
-
-
     if (isZipFile(source, config)){
-      doReadZipFile(entry, outDir, buffer, stream)
+
+      /*
+      * 把文件名分出来
+      * 根据文件名来确定最终的解压目录
+      * */
+      //文件名
+      val fileNamesToDirSeq:Seq[String] = source.getFileName.toString.split("\\.").toSeq.apply(0).split("_").toSeq
+      /*
+      *使用foldLeft把对应的目录建好
+      * */
+      val resultDir: String = fileNamesToDirSeq.foldLeft(outDir.toString){(path1: String, path2: String) => {
+        val t = s"$path1/$path2"
+        //println(outDir.resolve(t).toString)
+        val filePath = outDir.resolve(t)
+        if(!Files.isDirectory(filePath)) Files.createDirectories(filePath)
+        t
+      }}
+
+      doReadZipFile(entry, Paths.get(resultDir), buffer, stream)
+
     }
     else println("Not Zip files")
 
     //else  println("Error")
-
     //
     stream.close()
   }
