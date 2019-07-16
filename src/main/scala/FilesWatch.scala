@@ -7,8 +7,9 @@ import com.typesafe.config.{Config, ConfigFactory}
 object FilesWatch {
   def main(args: Array[String]): Unit = {
 
-    val config: Config = ConfigFactory.load("application.conf")
+    val config: Config = ConfigFactory.load()
 
+    println(config.getString("wei.test"))
     watch(config)
 
   }
