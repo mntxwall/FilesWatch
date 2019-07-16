@@ -3,6 +3,8 @@ import java.nio.file._
 import java.util.zip.{ZipEntry, ZipInputStream}
 
 import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
 
 object FilesWatch {
   def main(args: Array[String]): Unit = {
@@ -10,6 +12,8 @@ object FilesWatch {
     val config: Config = ConfigFactory.load()
 
     println(config.getString("wei.test"))
+    val logger = Logger(LoggerFactory.getLogger(FilesWatch.getClass))
+    logger.info("HelloWorld")
     watch(config)
 
   }

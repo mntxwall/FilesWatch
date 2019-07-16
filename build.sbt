@@ -16,6 +16,8 @@ mappings in Universal += {
 }
 bashScriptExtraDefines += """addJava "-Dconfig.file=${app_home}/../conf/app.conf""""
 libraryDependencies += "com.typesafe" % "config" % "1.3.4"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 
 
 
